@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Megapixel &amp; Aspect Ratio Calculator</title>
+
+  <!-- Favicon: Mint-green (hex #80cbc4) 16×16 square (inline SVG) -->
+  <link rel="icon" type="image/svg+xml" 
+        href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='16'%20height='16'%3E%3Crect%20width='100%25'%20height='100%25'%20fill='%2380cbc4'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body id="body">
+  <h1>Megapixel &amp; Aspect Ratio Calculator</h1>
+
+  <!-- Theme toggle button -->
+  <button id="themeToggleButton" onclick="toggleTheme()" title="Toggle Dark/Light mode (Shift+T)">Dark Mode</button>
+
+  <!-- Info toggle button -->
+  <button id="infoToggleButton" onclick="toggleInfo()">Show Info</button>
+
+  <!-- Info Overlay -->
+  <div id="infoOverlay">
+    <div id="infoModal">
+      <button id="closeInfo" onclick="toggleInfo()">Close</button>
+      <h2>About This Tool</h2>
+      <p>
+        This calculator is designed to help you quickly convert between pixels and megapixels while calculating the aspect ratio of an image. You can:
+      </p>
+      <ul>
+        <li><strong>Pixels to Megapixels &amp; Aspect Ratio:</strong> Input your image's pixel dimensions to see the corresponding megapixels and a simplified aspect ratio.</li>
+        <li><strong>Megapixels &amp; Aspect Ratio to Pixels:</strong> Enter a desired megapixel value along with a preset or custom aspect ratio to determine the necessary pixel dimensions.</li>
+        <li><strong>Image Import (Dimension Check):</strong> Drag and drop (or browse) an image to automatically detect its dimensions, aspect ratio, and megapixel count.</li>
+      </ul>
+      <p>
+        Additional features include resolution scaling, saving your favorite aspect ratios, and convenient keyboard shortcuts (Shift+H, Shift+V, Shift+F, Shift+R, Shift+T, Shift+S).
+      </p>
+    </div>
+  </div>
+
+  <div class="calculator-container">
+    <div class="calculator-tools">
+      <!-- FIRST TOOL: Pixels -> Megapixels & Aspect Ratio -->
+      <div class="calculator-section">
+        <h2>Pixels to Megapixels &amp; Aspect Ratio</h2>
+        <div class="input-group">
+          <label for="pixelWidth">Width (pixels):</label>
+          <input type="number" id="pixelWidth" placeholder="Enter width in pixels" min="1" oninput="calculateMegapixels()">
+        </div>
+        <div class="input-group">
+          <label for="pixelHeight">Height (pixels):</label>
+          <input type="number" id="pixelHeight" placeholder="Enter height in pixels" min="1" oninput="calculateMegapixels()">
+        </div>
+        <!-- MULTIPLIER DROPDOWN -->
+        <div class="input-group">
+          <label for="resolutionMultiplier">Scale resolution by:</label>
+          <select id="resolutionMultiplier" onchange="scaleResolution()">
+            <option value="">(No scale)</option>
+            <option value="2">2x</option>
+            <option value="4">4x</option>
+            <option value="8">8x</option>
+          </select>
+        </div>
+        <!-- END MULTIPLIER DROPDOWN -->
+        <div class="input-group">
+          <button class="flip-button" onclick="flipUpperTool()" title="Swap width and height (Shift+F)">Flip Dimensions</button>
+        </div>
+        <div id="result1"></div>
+        <button onclick="resetCalculator1()" title="Reset first tool (Shift+R)">Reset</button>
+      </div>
+
+      <!-- SECOND TOOL: Megapixels & Aspect Ratio -> Pixels -->
+      <div class="calculator-section">
+        <h2>Megapixels &amp; Aspect Ratio to Pixels</h2>
+        <div class="ratio-filter-buttons">
+          <button type="button" id="horizontalButton" onclick="showHorizontalRatios()" class="ratio-button active" title="Use Horizontal ratios (Shift+H)">Horizontal</button>
+          <button type="button" id="verticalButton" onclick="showVerticalRatios()" class="ratio-button" title="Use Vertical ratios (Shift+V)">Vertical</button>
+        </div>
+        <div class="input-group">
+          <label for="megapixels">Megapixels (MP):</label>
+          <input type="number" id="megapixels" placeholder="Enter megapixels" min="0.01" step="0.01" oninput="calculatePixels()">
+        </div>
+        <div class="input-group">
+          <label for="aspectRatioSelect">Select Aspect Ratio:</label>
+          <select id="aspectRatioSelect" onchange="presetChanged()"></select>
+        </div>
+        <div class="input-group">
+          <label for="customAspectRatio">Or enter custom Aspect Ratio (e.g. 2:1):</label>
+          <input type="text" id="customAspectRatio" placeholder="e.g. 2:1" oninput="calculatePixels()">
+        </div>
+        <div class="input-group" id="flipSuggestion"></div>
+        <div class="saved-ratios-group">
+          <label for="savedRatiosSelect">Saved Ratios:</label>
+          <select id="savedRatiosSelect" onchange="loadSavedRatio()"></select>
+          <button class="flip-button" onclick="saveCurrentRatio()">⭐ Save This Ratio</button>
+        </div>
+        <div id="result2"></div>
+        <button onclick="resetCalculator2()" title="Reset second tool (Shift+R)">Reset</button>
+      </div>
+
+      <!-- THIRD TOOL: Image Import (Dimension Check) -->
+      <div class="calculator-section">
+        <h2>Image Import (Dimension Check)</h2>
+        <!-- Drop Zone -->
+        <div id="dropZone">Drop an image here or click to browse</div>
+        <!-- Hidden file input for fallback -->
+        <input type="file" id="imageFileInput" accept="image/*" style="display:none;"/>
+
+        <div class="input-group">
+          <label for="detectedWidth">Detected Width (px):</label>
+          <input type="number" id="detectedWidth" readonly />
+        </div>
+        <div class="input-group">
+          <label for="detectedHeight">Detected Height (px):</label>
+          <input type="number" id="detectedHeight" readonly />
+        </div>
+
+        <!-- Aspect Ratio of imported image -->
+        <div class="input-group">
+          <label for="detectedAspectRatio">Aspect Ratio:</label>
+          <input type="text" id="detectedAspectRatio" readonly />
+        </div>
+
+        <!-- Megapixels of imported image -->
+        <div class="input-group">
+          <label for="detectedMegapixels">Megapixels:</label>
+          <input type="text" id="detectedMegapixels" readonly />
+        </div>
+
+        <!-- Scale dropdown for the detected resolution -->
+        <div class="input-group">
+          <label for="detectedResolutionMultiplier">Scale detected resolution by:</label>
+          <select id="detectedResolutionMultiplier" onchange="scaleDetectedResolution()">
+            <option value="">(No scale)</option>
+            <option value="2">2x</option>
+            <option value="4">4x</option>
+            <option value="8">8x</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- The pinned preview box -->
+    <div id="aspectRatioPreview">
+      Enter values to see preview<br>
+      <span style="font-size:0.85em; color:#777;">
+        Shortcut Keys: Shift+H (Horizontal), Shift+V (Vertical), Shift+F (Flip), Shift+R (Reset), Shift+T (Toggle Theme), Shift+S (Save Ratio)
+      </span>
+    </div>
+  </div>
+
+  <!-- Floating scroll-to-preview button (visible on mobile only) -->
+  <button id="scrollPreviewBtn" onclick="scrollToPreview()">Scroll to Preview</button>
+
+  <script src="script.js"></script>
+</body>
+</html>

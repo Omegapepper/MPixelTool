@@ -1,0 +1,500 @@
+/* ----- Basic Page & Theme Styles ----- */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #e0f7fa; 
+  color: #333;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background-color 0.5s, color 0.5s;
+}
+body.dark-mode {
+  background-color: #1e293b;
+  color: #f0f0f0;
+}
+
+h1 {
+  color: #00796b;
+  text-align: center;
+  margin-bottom: 0.5em;
+  transition: color 0.5s;
+}
+body.dark-mode h1 {
+  color: #a5f3fc;
+}
+
+/* Theme toggle button under heading */
+#themeToggleButton {
+  margin: 0 auto 1em;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+  background-color: #00796b;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.5s;
+}
+body.dark-mode #themeToggleButton {
+  background-color: #a5f3fc;
+  color: #1e293b;
+}
+#themeToggleButton:hover {
+  background-color: #004d40;
+}
+body.dark-mode #themeToggleButton:hover {
+  background-color: #7dd3fc;
+}
+
+/* Info Toggle Button */
+#infoToggleButton {
+  margin: 0 auto 1em;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  background-color: #80cbc4;
+  color: #004d40;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.5s;
+}
+#infoToggleButton:hover {
+  background-color: #00796b;
+  color: white;
+}
+
+/* Modal Overlay for Info */
+#infoOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  z-index: 2000;
+}
+#infoModal {
+  background: #fff;
+  max-width: 600px;
+  width: 90%;
+  padding: 20px;
+  margin: 100px auto;
+  border-radius: 8px;
+  position: relative;
+  color: #004d40;
+}
+body.dark-mode #infoModal {
+  background: #2d3748;
+  color: #f0f0f0;
+}
+#closeInfo {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  background: #00796b;
+  color: #fff;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  transition: background 0.3s;
+}
+#closeInfo:hover {
+  background: #004d40;
+}
+
+/* ----- Container for tools & pinned preview box ----- */
+.calculator-container {
+  display: flex;
+  flex-direction: row;
+  max-width: 900px;
+  width: 95%;
+  margin-bottom: 25px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.calculator-tools {
+  width: calc(60% - 20px);
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+.calculator-section {
+  background-color: #b2dfdb;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: background-color 0.5s;
+}
+body.dark-mode .calculator-section {
+  background-color: #243045;
+  box-shadow: 0 5px 15px rgba(255,255,255,0.1);
+}
+
+.calculator-section h2 {
+  color: #00796b;
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+  transition: color 0.5s;
+}
+body.dark-mode .calculator-section h2 {
+  color: #a5f3fc;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #004d40;
+  transition: color 0.5s;
+}
+body.dark-mode .input-group label {
+  color: #cbd5e1;
+}
+
+.input-group input[type="number"],
+.input-group select,
+.input-group input[type="text"] {
+  width: calc(100% - 22px);
+  padding: 12px;
+  border: 2px solid #80cbc4;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s, background-color 0.5s, color 0.5s;
+  background-color: white;
+  color: #333;
+}
+body.dark-mode .input-group input[type="number"],
+body.dark-mode .input-group select,
+body.dark-mode .input-group input[type="text"] {
+  border-color: #64748b;
+  background-color: #2d3748;
+  color: #f0f0f0;
+}
+.input-group select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="%23000000" stroke-width="1" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></svg>');
+  background-repeat: no-repeat;
+  background-position: calc(100% - 10px) center;
+  transition: background-image 0.5s;
+}
+body.dark-mode .input-group select {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="%23f0f0f0" stroke-width="1" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></svg>');
+}
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #00796b;
+  outline: none;
+  box-shadow: 0 0 8px rgba(0,121,107,0.5);
+}
+body.dark-mode .input-group input:focus,
+body.dark-mode .input-group select:focus {
+  border-color: #a5f3fc;
+  box-shadow: 0 0 8px rgba(165,243,252,0.5);
+}
+
+button {
+  background-color: #00796b;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.5s;
+  display: block;
+  margin: 15px auto 0;
+}
+body.dark-mode button {
+  background-color: #a5f3fc;
+  color: #1e293b;
+}
+button:hover {
+  background-color: #004d40;
+}
+body.dark-mode button:hover {
+  background-color: #7dd3fc;
+}
+
+#result1, #result2 {
+  background-color: #c8e6c9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  border: 2px solid #a5d6a7;
+  position: relative;
+  transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+  min-height: 50px;
+}
+body.dark-mode #result1, body.dark-mode #result2 {
+  background-color: #2e3a4d;
+  color: #f0f0f0;
+  border-color: #64748b;
+}
+#result1 span, #result2 span {
+  color: #00695c;
+  transition: color 0.5s;
+}
+body.dark-mode #result1 span, body.dark-mode #result2 span {
+  color: #a5f3fc;
+}
+
+@keyframes highlight {
+  from { background-color: rgba(255,255,255,0.2); }
+  to { background-color: transparent; }
+}
+.result-highlight {
+  animation: highlight 0.8s ease-out;
+}
+
+.copy-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(0,121,107,0.7);
+  color: white;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s, background-color 0.3s, color 0.5s;
+}
+body.dark-mode .copy-button {
+  background-color: rgba(165,243,252,0.7);
+  color: #1e293b;
+}
+.copy-button:hover {
+  opacity: 1;
+  background-color: #00695c;
+}
+body.dark-mode .copy-button:hover {
+  background-color: #7dd3fc;
+}
+
+/*
+   For screens > 768px, pin the preview box.
+   For 768px or below, it stays in normal flow.
+*/
+#aspectRatioPreview {
+  background-color: #b2dfdb;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  margin-top: 0;
+  margin-bottom: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8em;
+  line-height: 1.4;
+  color: #004d40;
+  text-align: center;
+  font-weight: bold;
+  padding: 20px;
+  transition: all 0.5s ease;
+  width: 200px;
+  height: 200px;
+}
+body.dark-mode #aspectRatioPreview {
+  background-color: #243045;
+  color: #a5f3fc;
+  box-shadow: 0 5px 15px rgba(255,255,255,0.1);
+  outline: 1px solid #a5f3fc;
+}
+@media (min-width: 769px) {
+  #aspectRatioPreview {
+    position: fixed;
+    top: 50%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+  }
+}
+
+.ratio-filter-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+.ratio-button {
+  background-color: #80cbc4;
+  color: #004d40;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 0 5px;
+  transition: background-color 0.3s, color 0.5s;
+}
+body.dark-mode .ratio-button {
+  background-color: #334155;
+  color: #f0f0f0;
+}
+.ratio-button:hover {
+  background-color: #00796b;
+  color: white;
+}
+body.dark-mode .ratio-button:hover {
+  background-color: #a5f3fc;
+  color: #1e293b;
+}
+.ratio-button:focus {
+  outline: none;
+  box-shadow: 0 0 6px rgba(0,121,107,0.5);
+}
+body.dark-mode .ratio-button:focus {
+  box-shadow: 0 0 6px rgba(165,243,252,0.5);
+}
+.ratio-button.active {
+  background-color: #00796b;
+  color: white;
+}
+body.dark-mode .ratio-button.active {
+  background-color: #a5f3fc;
+  color: #1e293b;
+}
+
+.flip-button {
+  background-color: #00796b;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: background-color 0.3s, color 0.5s;
+}
+body.dark-mode .flip-button {
+  background-color: #a5f3fc;
+  color: #1e293b;
+}
+.flip-button:hover {
+  background-color: #004d40;
+}
+body.dark-mode .flip-button:hover {
+  background-color: #7dd3fc;
+}
+
+.saved-ratios-group {
+  margin-bottom: 20px;
+}
+.saved-ratios-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+.saved-ratios-group select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #80cbc4;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+  color: #333;
+  margin-bottom: 5px;
+  transition: background-color 0.5s, color 0.5s;
+}
+body.dark-mode .saved-ratios-group select {
+  background-color: #2d3748;
+  color: #f0f0f0;
+  border-color: #64748b;
+}
+
+/* For 768px or below, put everything in normal flow */
+@media (max-width: 768px) {
+  #aspectRatioPreview {
+    position: static;
+    margin-top: 20px;
+    width: 90%;
+    max-width: 300px;
+    transform: none;
+  }
+  .calculator-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .calculator-tools {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  /* Floating scroll-to-preview button (for mobile only) */
+  #scrollPreviewBtn {
+    display: block;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+    border: none;
+    background-color: rgba(0,121,107,0.2);
+    color: #004d40;
+    cursor: pointer;
+    z-index: 1500;
+    transition: background-color 0.3s, opacity 0.3s, color 0.5s;
+  }
+  #scrollPreviewBtn:hover {
+    background-color: rgba(0,121,107,0.4);
+    opacity: 0.8;
+  }
+  body.dark-mode #scrollPreviewBtn {
+    background-color: rgba(165,243,252,0.2);
+    color: #1e293b;
+  }
+  body.dark-mode #scrollPreviewBtn:hover {
+    background-color: rgba(165,243,252,0.4);
+    opacity: 0.8;
+  }
+}
+@media (min-width: 769px) {
+  #scrollPreviewBtn {
+    display: none;
+  }
+}
+
+/* Drop Zone styling for third tool */
+#dropZone {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20px;
+  border: 2px dashed #80cbc4;
+  border-radius: 8px;
+  text-align: center;
+  color: #004d40;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 20px;
+}
+body.dark-mode #dropZone {
+  border-color: #64748b;
+  color: #f0f0f0;
+}
+#dropZone:hover {
+  background-color: #c8e6c9;
+}
+body.dark-mode #dropZone:hover {
+  background-color: #334155;
+}

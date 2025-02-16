@@ -16,7 +16,7 @@ This is a simple, offline-capable calculator for:
 ## 🚀 Features
 ✅ Convert Pixels ↔ Megapixels  
 ✅ Calculate Aspect Ratios  
-✅ Import Images for Auto-Detection  
+✅ Import Images for Auto-Detection (Data is fully processed locally in browser)  
 ✅ Resolution Scaling (2x, 4x, 8x)  
 ✅ Save & Load Custom Ratios  
 ✅ Works **100% Offline**  
